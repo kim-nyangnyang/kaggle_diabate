@@ -10,15 +10,15 @@
 - **데이터셋** : [Diabetes Health Indicators Dataset](https://www.kaggle.com/datasets/mohankrishnathalla/diabetes-health-indicators-dataset/data)
 - **핵심 목표** : 데이터를 활용해 **당뇨병 고위험군을 선별할 수 있는 예측 모델** 구축
 
+
+
 ## 2. Data Dictionary (주요 핵심 변수)
 - 실제 분석 결과를 통해서 확보한 변수들의 기재
 - 총 변수갯수 : 31개
 
-| 변수명 | 설명 | 값의 의미 |
-| :--- | :--- | :--- |
 ## 📊 데이터셋 명세 (Dataset Specifications)
 
-본 프로젝트에서 사용된 데이터는 Kaggle의 당뇨병 예측 챌린지 데이터를 기반으로 하며, 변수의 특성에 따라 4가지 카테고리로 분류하였습니다.
+본 프로젝트에서 사용된 데이터는 Kaggle의 당뇨병 예측 챌린지 데이터를 기반으로 하며, 변수의 특성에 따라 5가지 카테고리로 분류하였습니다.
 
 ### 🔍 변수 정의 및 상세 설명
 
@@ -64,6 +64,7 @@
 3. **Pre-processing**: 범주형 데이터(`gender`, `smoking_status` 등)는 모델 학습을 위해 One-Hot Encoding 또는 Label Encoding 처리가 필요합니다. 수치형 데이터(`bmi`,`systolic_bp` 등)는 StandardScaler등 표준화가 필요합니다.
 
 
+
 ## 3. Problem Definition
 - **데이터 특성** 
     1. 복합적 변수 구성 : 응답자의 특성을 다양한 독립변수로 나타냄
@@ -74,6 +75,8 @@
     + 통계분석 : 다중회귀, 분산분석, 로지스틱회귀, 단변량 분석 등
     + 머신러닝 : 로지스틱회귀, 결정트리, XGBoost, LightGBM  등
 
+
+
 ## 4. Data Preprocessing
 - **클래스 불균형 해소** 
     + 타겟 변수(`diagnosed_diabetes`)의 비대칭적 분포(약 9:1) 확인
@@ -83,9 +86,13 @@
     + 일반 범주 : One-Hot Encoding 처리
 - **데이터 스케일링** : StandardScaler(표준화)
 
+
+
 ## 5. 통계분석 핵심 인사이트
 - 혈당이 중요함 : 다른 알려진 요인(나이, BMI)보다 통계적으로 매우 훨씬, 강력하게, 유의미하게 영향이 있음을 확인 (via 회귀분석)
 ![Q-Q Plot](output/qqplot.jpg)
+
+
 
 ## 6. 모델링 평가지표
 - 최종 모델은 LightGBM으로 선정
@@ -99,6 +106,8 @@
 
 > **Note** : 최종 대회 결과는 Public 0.69515 / Private 0.69515 (상위 10%). 
 
+
+
 ## 7. Feature Importance (옵션)
 - SHAP 활용
 - 예측 모델에서 영향력이 가장 컸던 지표 순위
@@ -106,10 +115,14 @@
 2. BMI
 - 그림 추가
 
+
+
 ## 8. Conclusion
 - 결론1
 - 결론2
 - 결론3
+
+
 
 # 보고서
 - 프로젝트 상세 보고서는 PDF 슬라이드 자료를 참고하여 주세요
