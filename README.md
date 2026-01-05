@@ -25,8 +25,8 @@
 | 분류 | 변수명 | 설명 | 데이터 타입 | 비고 |
 | :--- | :--- | :--- | :--- | :--- |
 | **인구통계** | `age` | 대상자의 연령 | `Numeric` | 핵심 분석 지표 |
-| | `gender` | 성별 (Male / Female) | `Categorical` | |
-| | `ethnicity` | 인종 및 민족 | `Categorical` | |
+| | `gender` | 성별 (Male / Female) | `Categorical` | 남성,여성, other |
+| | `ethnicity` | 인종 및 민족 | `Categorical` |white 등 5개 |
 | **생활습관** | `smoking_status` | 흡연 상태 | `Categorical` | Never, Former, Current |
 | | `alcohol_consumption_per_week` | 주간 음주량 | `Numeric` | units/week |
 | | `physical_activity` | 주당 신체 활동 시간 | `Numeric` | minutes/week |
@@ -44,9 +44,9 @@
 | **기저질환** | `family_history_diabetes`| 당뇨 가족력 여부 | `Binary` | 0: 없음, 1: 있음 |
 | | `hypertension_history` | 고혈압 과거력 | `Binary` | 0: 없음, 1: 있음 |
 | | `cardiovascular_history`| 심혈관 질환 과거력 | `Binary` | 0: 없음, 1: 있음 |
-| **사회/환경** | `income_level` | 소득 수준 (Low ~ High) | `Ordinal` | |
-| | `education_level` | 최종 학력 수준 | `Ordinal` | |
-| | `employment_status` | 고용 형태 | `Ordinal` | |
+| **사회/환경** | `income_level` | 소득 수준  | `Ordinal` |(Low ~ High) |
+| | `education_level` | 최종 학력 수준 | `Ordinal` | Graduate 등 4개 |
+| | `employment_status` | 고용 형태 | `Ordinal` | employment 등 4개 |
 | | `screen_time_hours_per_day` | 일일 스크린타임 | `Numeric` | hours/day | |
 | **진단지표** | `diabetes_stage` | 당뇨병 진행 단계 | `Categorical` | 질환의 심각도 단계 | |
 | | `diabetes_risk_score` | 당뇨병 위험 점수 | `Numeric` | 예측 모델의 기반 점수 | |
@@ -57,12 +57,42 @@
 | **targetVariable** | **`diagnosed_diabetes`** | **당뇨 진단 여부 (Target)** | `Binary` | **0: 음성, 1: 확진** |
 
 ---
-
 ### 💡 주요 분석 포인트
 1. **Target Variable**: 본 데이터셋의 목적은 다양한 변수를 통해 당뇨 발병 가능성을 예측하는 것입니다.
-2. **Feature Importance**: 
-3. **Pre-processing**: 범주형 데이터(`gender`, `smoking_status` 등)는 모델 학습을 위해 One-Hot Encoding 또는 Label Encoding 처리가 필요합니다. 수치형 데이터(`bmi`,`systolic_bp` 등)는 StandardScaler등 표준화가 필요합니다.
+2. **Feature Importance**: 당뇨 진단 여부에 영향을 주는 중요도를 분석해 핵심요인을 도출합니다.
+3. **Pre-processing**: 범주형 데이터(`gender`, `smoking_status` 등)는 모델 학습을 위해 One-Hot Encoding 또는 Label Encoding 처리가 필요합니다. 수치형 데이터(`bmi`,`systolic_bp` 등)는 StandardScaler, log변환 등 표준화가 필요합니다.
 
+
+### 🔍 머신러닝에 사용한 변수
+
+| 분류 | 변수명 | 설명 | 비고 (통계/처리 근거) |
+| :--- | :--- | :--- | :--- |
+| **인구통계** | `age` | 대상자의 연령 | 효과크기 0.33 (주요 인자) |
+| **생활습관** | `log_physical_activity` | 주당 신체 활동 시간 | Log 변환, 효과 크기 0.34 |
+| | `diet_score` | 평소 식습관 자가 점수 | 효과 크기 0.1  |
+| **신체지표** | `bmi` | 체질량 지수 | 비만도 측정 (WHR 대체) |
+| | `systolic_bp` | 수축기 혈압 | 혈압 지표 대표 |
+| | `log_triglycerides` | 중성지방 수치 | Log 변환, 인슐린 저항성 지표 |
+| | `hdl_cholesterol` | HDL 콜레스테롤 | 지질 대사 보호 요인 |
+| **기저질환** | `family_history_diabetes` | 당뇨 가족력 여부 | Cohen's $d$ 0.44 (최고치) |
+| **사회/환경** | `income_level` | 소득 수준 | 사회경제적 일반화 변수 |
+| | `education_level` | 최종 학력 수준 | 건강 문해력 대리 지표 |
+| **파생변수** | `age_family_interaction` | 연령 x 가족력 상호작용 | 노화에 따른 유전적 소인 발현 가중치 반영 |
+| | `tg_hdl_ratio` | TG / HDL 비율 | 인슐린 저항성을 나타내는 핵심 임상 지표 |
+---
+### 💡 선택 기준 (Feature Selection Rationale)
+
+1. **다중공선성(Multicollinearity) 해결**
+   - VIF(분산팽창지수)가 극도로 높았던 `waist_to_hip_ratio`, `cholesterol_total`, `diastolic_bp` 등을 제외하고, 각 카테고리를 대표하는 핵심 변수만을 선정하여 모델의 통계적 안정성을 확보했습니다.
+
+2. **통계적 유의성 및 효과 크기(Effect Size) 반영**
+   - 데이터가 크기때문에 p-value뿐만 아니라 실질적 영향력을 나타내는 **Cohen's $d$** 지표를 기준으로 변수를 선별하였습니다.
+   - 
+3. **모델의 일반화(Generalization) 성능 향상**
+   - 생물학적 수치 외에도 소득 및 교육 수준과 같은 사회경제적 지표를 포함하여, 개인의 환경적 맥락이 당뇨 발병에 미치는 비선형적 상호작용을 모델이 학습할 수 있도록 설계했습니다.
+
+4. **데이터 분포 최적화**
+   - 왜도(Skewness)가 높은 `triglycerides`와 `physical_activity`에 **Log 변환**을 적용하여 수치 범위 차이로 인한 왜곡을 방지하고 학습 효율을 높였습니다.
 
 
 ## 3. Problem Definition
@@ -85,12 +115,27 @@
     + 순서형 : ordinal encoder 처리 (A, B, C)
     + 일반 범주 : One-Hot Encoding 처리
 - **데이터 스케일링** : StandardScaler(표준화)
-
+- **Log변환** : 불균형한 분포 대상 log 변환
 
 
 ## 5. 통계분석 핵심 인사이트
-- 혈당이 중요함 : 다른 알려진 요인(나이, BMI)보다 통계적으로 매우 훨씬, 강력하게, 유의미하게 영향이 있음을 확인 (via 회귀분석)
-![Q-Q Plot](output/qqplot.jpg)
+
+본 프로젝트는 모델 학습 전, 데이터의 통계적 구조를 파악하여 모델의 신뢰성을 확보했습니다.
+
+### ✅ 다중공선성(VIF) 정제 결과
+- **문제 진단**: 초기 분석 시 `waist_to_hip_ratio`(VIF: 817), `log_triglycerides`(VIF: 510) 등에서 극심한 다중공선성 확인
+- **해결 전략**: 임상적 중요도가 겹치는 변수를 제거하고 대표 지표(`bmi`, `systolic_bp`)를 선정하여 **모든 변수의 VIF를 안정적인 수준으로 제어**
+
+### ✅ 효과 크기(Effect Size) 분석
+단순 p-value 유의성을 넘어, 실제 당뇨 발병에 기여하는 정도를 **Cohen's $d$**와 **Cramér's $V$**로 정량화했습니다.
+
+1. **가장 강력한 예측 요인**: **당뇨 가족력(0.44)**과 **신체 활동(-0.35)**이 압도적인 영향력을 보임
+2. **신체 지표의 기여**: 연령(0.33) > 수축기 혈압(0.22) > BMI(0.21) 순으로 높은 상관관계 확인
+3. **사회적 요인**: 소득 및 교육 수준이 미세하지만 유의미한 상관성을 보이며 모델의 일반화에 기여
+
+### ✅ 파생 변수의 도입 근거
+- **TG/HDL Ratio**: 중성지방과 HDL의 개별 수치보다 두 변수의 비율이 인슐린 저항성을 더 잘 설명한다는 임상 근거를 바탕으로 도입 고려
+- **Age-Family Interaction**: 고연령층일수록 유전적 요인의 발현 가능성이 높아지는 비선형적 특성을 모델링에 반영
 
 
 
