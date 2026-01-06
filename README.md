@@ -113,7 +113,7 @@
 
 ## 4. Data Preprocessing
 - **클래스 불균형 해소** 
-    + 타겟 변수(`diagnosed_diabetes`)의 비대칭적 분포(약 9:1) 확인
+    + 타겟 변수(`diagnosed_diabetes`)의 비대칭적 분포 확인
     + 학습 시 클래스 가중치(Class Weight)를 조정하여, 소수 클래스인 당뇨 판정 오류에 대해 더 높은 페널티를 부여함으로써 예측 정확도와 재현율 간의 균형을 도모
 - **범주형 변수 처리**
     + 순서형 : ordinal encoder 처리 (A, B, C)
