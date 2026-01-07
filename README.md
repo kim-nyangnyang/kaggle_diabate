@@ -126,8 +126,7 @@
 
 
 
-## 7. 
-## 5. 🔍 Feature Importance (SHAP Analysis)
+## 7. 🔍 Feature Importance (SHAP Analysis)
 SHAP 분석을 통해 예측 모델이 각 개인을 판단할 때 중요하게 고려한 지표의 순위를 도출했습니다.
 **[Top 5 핵심 인자]**
 1. **당뇨 가족력 (`family_history_diabetes`) - 0.407**: 유전적 소인이 당뇨 발생을 예측하는 가장 압도적인 지표임이 확인되었습니다.
@@ -139,7 +138,8 @@ SHAP 분석을 통해 예측 모델이 각 개인을 판단할 때 중요하게 
 > **💡 인사이트**: 단순한 신체 지표(BMI 등)보다 **가족력(유전)**과 **신체 활동(습관)**이 모델 예측에서 더 강력한 설명력을 가짐을 확인하였습니다. 특히 파생변수인 `TG/HDL` 비율이 주요 인자로 등장하며 대사 지표의 중요성을 입증했습니다.
 
 ---
-![sharp]<<img width="789" height="339" alt="sharp" src="https://github.com/user-attachments/assets/b4523fbf-3a6d-4bcc-a278-7adee779746e" />
+![sharp]<img width="789" height="339" alt="sharp" src="https://github.com/user-attachments/assets/64daa793-bbe8-4d47-92b0-7d647f9dfc5f" />
+
 
 
 ## 8. Conclusion
