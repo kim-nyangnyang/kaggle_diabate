@@ -164,7 +164,7 @@ SHAP 분석을 통해 예측 모델이 각 개인을 판단할 때 중요하게 
 - 프로젝트 상세 보고서는 PDF 슬라이드 자료를 참고하여 주세요
 - 분석 보고서 : [당뇨병 예측 모델링: 통계분석 및 머신러닝 접근](report/당뇨진단예측보고서.pdf)
 - 분석코드 : [분석코드](report/기본틀.ipynb)
-- Tableau: [대시보드 열기]([https://github.com/kim-nyangnyang/kaggle_diabate/blob/main/report/%EB%8B%B9%EB%87%A8.twb](https://public.tableau.com/app/profile/.75493083/viz/diabetes_tableau/14))
+- Tableau: [대시보드 열기](https://public.tableau.com/app/profile/.75493083/viz/diabetes_tableau/14)
 
 # 🔗 배지 및 이모지 공식 소스 링크
 | 용도 | 사이트 이름 | 링크 |
